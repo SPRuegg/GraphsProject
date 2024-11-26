@@ -287,7 +287,7 @@ public class Graph <E extends Comparable<E>> {
         }
 
         // Ensure the requested data, doesn't exist already
-        if (cmp.compare(data, curr.data) != 0) {
+        if (curr.nextVertex == null || cmp.compare(data, curr.nextVertex.data) != 0) {
             Vertex newVert = new Vertex();
             newVert.data = data;
 
