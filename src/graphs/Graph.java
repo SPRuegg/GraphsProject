@@ -84,6 +84,7 @@ public class Graph <E extends Comparable<E>> {
 
     private Vertex first;
     private int size;
+    private int edges;
     Comparator<? super E> cmp;
 
     private final boolean directed;
@@ -129,6 +130,15 @@ public class Graph <E extends Comparable<E>> {
     }
 
     /**
+     * Gets the amount of edges in the graph.
+     *
+     * @return the amount of vertices in the graph
+     */
+    public int edges() {
+        return edges;
+    }
+
+    /**
      * Gets the in-degree of the specified vertex, if it exists.
      *
      * @param data the data of the specified vertex
@@ -143,9 +153,11 @@ public class Graph <E extends Comparable<E>> {
             throw new GraphException(message);
         }
 
-        // To be implemented
+        Vertex vert = retrieveVertex(data);
 
-        return -1;
+        if (vert == null) throw new GraphException("Vertex: " + data.toString() + " does not exist.");
+
+        return vert.inDeg;
     }
 
     /**
@@ -163,9 +175,11 @@ public class Graph <E extends Comparable<E>> {
             throw new GraphException(message);
         }
 
-        // To be implemented
+        Vertex vert = retrieveVertex(data);
 
-        return -1;
+        if (vert == null) throw new GraphException("Vertex: " + data.toString() + " does not exist.");
+
+        return vert.outDeg;
     }
 
     /**
@@ -183,9 +197,11 @@ public class Graph <E extends Comparable<E>> {
             throw new GraphException(message);
         }
 
-        // To be implemented
+        Vertex vert = retrieveVertex(data);
 
-        return -1;
+        if (vert == null) throw new GraphException("Vertex: " + data.toString() + " does not exist.");
+
+        return (vert.outDeg * 2) + (vert.inDeg * 2);
     }
 
     /**
@@ -245,6 +261,7 @@ public class Graph <E extends Comparable<E>> {
         if (isEmpty()) {
             first = new Vertex();
             first.data = data;
+            vertices++;
             return true;
         }
 
@@ -256,6 +273,8 @@ public class Graph <E extends Comparable<E>> {
             // LinkedList head reassignment
             newVert.nextVertex = first;
             first = newVert;
+            vertices++;
+            return true;
         } else if (cmp.compare(data, first.data) == 0) {
             return false;
         }
@@ -275,6 +294,7 @@ public class Graph <E extends Comparable<E>> {
             // LinkedList insertion
             newVert.nextVertex = curr.nextVertex;
             curr.nextVertex = newVert;
+            vertices++;
             return true;
         }
 
